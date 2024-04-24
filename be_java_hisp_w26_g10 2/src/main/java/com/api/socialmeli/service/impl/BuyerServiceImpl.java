@@ -1,21 +1,6 @@
 package com.api.socialmeli.service.impl;
 
-import com.api.socialmeli.dto.BuyerFollowedListDTO;
-import com.api.socialmeli.entity.Buyer;
-import com.api.socialmeli.entity.Seller;
-import com.api.socialmeli.repository.IBuyerRepository;
-import com.api.socialmeli.repository.ISellerRepository;
-import com.api.socialmeli.entity.Seller;
-import com.api.socialmeli.exception.BadRequestException;
-import com.api.socialmeli.exception.NotFoundException;
-import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.service.IBuyerService;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,7 +20,8 @@ public class BuyerServiceImpl implements IBuyerService {
     public Buyer followUser(Integer userId, Integer userIdToFollow) {
         Seller userFollowed = sellerRepository.getById(userIdToFollow);
         return buyerRepository.followUser(userId, userFollowed);
-    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
+        }
+        public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
         ObjectMapper mapper = new ObjectMapper();
         Buyer buyer = buyerRepository.getById(user_id);//Se obtiene el usuario solicitado
         if (buyer!=null){//Valida que sea un usario registrado
@@ -59,4 +45,3 @@ public class BuyerServiceImpl implements IBuyerService {
         }
     }
 }
-
