@@ -51,4 +51,9 @@ public class BuyerServiceImpl implements IBuyerService {
             throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
         }
     }
+
+    @Override
+    public BuyerFollowedListDTO getFollowedListByUserOrderByName(Integer user_id, String order) {
+        return null;
+    }
 }
