@@ -16,7 +16,7 @@ public class BuyerServiceImpl implements IBuyerService {
     IBuyerRepository buyerRepository;
 
     @Override
-    public BuyerFollowedListDTO getFolloedListByUser(Integer user_id) {
+    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id) {
         ObjectMapper mapper = new ObjectMapper();
         Buyer buyer = buyerRepository.getById(user_id);
         if (buyer!=null){

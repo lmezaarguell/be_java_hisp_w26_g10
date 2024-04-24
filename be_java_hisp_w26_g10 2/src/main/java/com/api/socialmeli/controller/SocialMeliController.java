@@ -1,6 +1,5 @@
 package com.api.socialmeli.controller;
 
-import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.service.IBuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class SocialMeliController {
 
     @GetMapping("/users/{userId}/followed/list")
     public ResponseEntity<?> getFollowedListById(@PathVariable Integer userId){
-        return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFolloedListByUser(userId));
+        return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFollowedListByUser(userId));
     }
 
 }
