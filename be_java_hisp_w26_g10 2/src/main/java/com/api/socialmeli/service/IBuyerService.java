@@ -7,6 +7,7 @@ import com.api.socialmeli.dto.BuyerFollowedListDTO;
 import com.api.socialmeli.entity.Buyer;
 
 public interface IBuyerService {
+    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id);
     public BuyerFollowedListDTO getFolloedListByUser(Integer user_id);
     public List<Buyer> getAll();
 

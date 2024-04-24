@@ -20,8 +20,15 @@ public class BuyerServiceImpl implements IBuyerService {
     public Buyer followUser(Integer userId, Integer userIdToFollow) {
         Seller userFollowed = sellerRepository.getById(userIdToFollow);
         return buyerRepository.followUser(userId, userFollowed);
+<<<<<<< HEAD
         }
         public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
+=======
+    }
+
+    @Override
+    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id) {
+>>>>>>> ad7331e (clean code and final version use case 4)
         ObjectMapper mapper = new ObjectMapper();
         Buyer buyer = buyerRepository.getById(user_id);//Se obtiene el usuario solicitado
         if (buyer!=null){//Valida que sea un usario registrado
