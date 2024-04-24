@@ -1,26 +1,12 @@
 package com.api.socialmeli.controller;
-
+import java.util.List;
 import com.api.socialmeli.service.ISellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.api.socialmeli.service.IBuyerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.socialmeli.entity.Buyer;
@@ -31,6 +17,7 @@ public class SocialMeliController {
 
     @Autowired
     IBuyerService buyerService;
+    ISellerService iSellerService;
 
     @GetMapping("/users")
     public ResponseEntity<List<Buyer>> getAll(){
@@ -41,7 +28,7 @@ public class SocialMeliController {
     public ResponseEntity<Buyer> followUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
-
+    
 
     //Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
     @GetMapping("/users/{userId}/followed/list")
