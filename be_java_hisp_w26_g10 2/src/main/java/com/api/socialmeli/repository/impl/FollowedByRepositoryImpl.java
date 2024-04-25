@@ -2,9 +2,11 @@ package com.api.socialmeli.repository.impl;
 
 import com.api.socialmeli.entity.FollowedBy;
 import com.api.socialmeli.repository.IFollowedByRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class FollowedByRepositoryImpl implements IFollowedByRepository {
     @Override
     public void save(FollowedBy followedBy) {
