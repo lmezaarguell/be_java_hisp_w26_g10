@@ -46,6 +46,11 @@ public class FollowedByRepositoryImpl implements IFollowedByRepository {
 
     @Override
     public void delete(int seller_id, int buyer_id) {
-
+        List<FollowedBy> updatedFollowers = followedList.stream()
+                .filter(follow -> follow.getSeller_id() == seller_id
+                &&
+                        follow.getBuyer_id() == buyer_id
+                ).toList();
+        followedList = updatedFollowers;
     }
 }
