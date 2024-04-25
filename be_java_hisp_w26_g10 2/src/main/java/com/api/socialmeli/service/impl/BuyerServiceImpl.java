@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 public class BuyerServiceImpl implements IBuyerService {
     @Autowired
     IBuyerRepository buyerRepository;
+    /*
+    US 0007: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor.
+     */
     @Override
     public void unfollowUser(Integer followerId, Integer toUnfollowId) {
         Buyer buyer = buyerRepository.getById(followerId);

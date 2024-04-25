@@ -23,6 +23,9 @@ public class SocialMeliController {
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
     }
+    /*
+    US 0007: endpoint
+    */
     @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowUser(@PathVariable Integer userId,
                                           @PathVariable Integer userIdToUnfollow){
