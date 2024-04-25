@@ -4,10 +4,7 @@ import com.api.socialmeli.service.ISellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.service.IBuyerService;
@@ -37,7 +34,10 @@ public class SocialMeliController {
     }
 
     @GetMapping("/users/{userId}/followers/list")
-    public ResponseEntity<?> getFollowersOfSeller(@PathVariable("userId") int userId){
-        return new ResponseEntity<>(iSellerService.getFollowersOfSeller(userId), HttpStatus.OK);
+    public ResponseEntity<?> getFollowersOfSeller(
+        @PathVariable("userId") int userId,
+        @RequestParam(name = "order", defaultValue = "", required = false) String order)
+    {
+        return new ResponseEntity<>(iSellerService.getFollowersOfSeller(userId, order), HttpStatus.OK);
     }
 }

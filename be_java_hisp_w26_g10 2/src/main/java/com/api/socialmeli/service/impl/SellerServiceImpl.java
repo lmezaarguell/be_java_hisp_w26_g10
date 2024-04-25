@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,10 +38,15 @@ public class SellerServiceImpl implements ISellerService {
     }
 
     @Override
-    public FollowedBySellerDto getFollowersOfSeller(int seller_id) {
+    public FollowedBySellerDto getFollowersOfSeller(int seller_id, String order) {
         /* se realiza validacion dentro del id del venedor enviado */
         if(seller_id <= 0){
             throw new BadRequestException("El id del vendedor no puede ser menor o igual a cero");
+        }
+
+        /* se realiza validacion dentro del order enviado */
+        if(!order.equals("name_desc") && !order.equals("name_asc") && !order.equals("")){
+            throw new BadRequestException("El tipo de ordenamiento no es el permitido");
         }
 
         /* se comprueba que el vendedor exista */
@@ -73,15 +79,28 @@ public class SellerServiceImpl implements ISellerService {
 
 
         /* se crea su dto de respuesta */
-        ObjectMapper objectMapper = new ObjectMapper();
         List<UserDto> followersDto = buyersFollowers.stream()
                 .map(buyer -> new UserDto(buyer.getUser_id(), buyer.getUser_name()))
                 .collect(Collectors.toList());
+        List<UserDto> sortedList = new ArrayList<>();
+
+        /* se comprueba forma de ordenamiento y se aplica el correspondiente*/
+        if(order.equals("name_asc")){
+            sortedList = followersDto.stream()
+                    .sorted(Comparator.comparing(UserDto::getUser_name))
+                    .collect(Collectors.toList());
+        }else if(order.equals("name_des")){
+            sortedList = followersDto.stream()
+                    .sorted(Comparator.comparing(UserDto::getUser_name).reversed())
+                    .collect(Collectors.toList());
+        }else{
+            sortedList = followersDto;
+        }
 
         return new FollowedBySellerDto(
                 seller.getUser_id(),
                 seller.getUser_name(),
-                followersDto
+                sortedList
         );
     }
 }

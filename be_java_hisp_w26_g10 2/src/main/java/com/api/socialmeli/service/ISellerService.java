@@ -6,6 +6,6 @@ import com.api.socialmeli.dto.SellersCountFollowersDto;
 public interface ISellerService {
 
     SellersCountFollowersDto getCountOfSellerFollowers(int user_id);
-    FollowedBySellerDto getFollowersOfSeller(int seller_id); 
+    FollowedBySellerDto getFollowersOfSeller(int seller_id, String order);
 
 }
