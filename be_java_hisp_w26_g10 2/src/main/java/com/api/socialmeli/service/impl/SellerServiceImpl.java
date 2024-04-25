@@ -25,11 +25,9 @@ public class SellerServiceImpl implements ISellerService {
     @Autowired
     IBuyerRepository iBuyerRepository;
 
-    /**
-     * Obtenemos la cuenta de las personas que siguen a un determinado vendedor
-     * @param user_id
-     * @return
-     */
+    
+    // Obtenemos la cuenta de las personas que siguen a un determinado vendedor
+     
     @Override
     public SellersCountFollowersDto getCountOfSellerFollowers(Integer user_id) {
         //Obtenemos la lista de los vendedores y compradores

@@ -2,10 +2,10 @@ package com.api.socialmeli.service.impl;
 
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
+import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.repository.ISellerRepository;
 import com.api.socialmeli.dto.BuyerFollowedListDTO;
-import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.service.IBuyerService;
 
@@ -33,7 +33,14 @@ public class BuyerServiceImpl implements IBuyerService {
     @Override
     public Buyer followUser(Integer userId, Integer userIdToFollow) {
         Seller userFollowed = sellerRepository.getById(userIdToFollow);
-        return buyerRepository.followUser(userId, userFollowed);
+        Buyer userFollowing = buyerRepository.getById(userId);
+        if(userFollowed == null || userFollowing == null){
+            throw new BadRequestException("Comprador o vendedor no encontrado por Id");
+        }
+        if(userFollowing.getFollowed().contains(userFollowed)){
+            throw new BadRequestException("Ya esta siguiendo al comprador");
+        }
+        return buyerRepository.followUser(userFollowing, userFollowed);
     }
 
     @Override
@@ -65,14 +72,19 @@ public class BuyerServiceImpl implements IBuyerService {
     @Override
     public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
         ObjectMapper mapper = new ObjectMapper();
-        Buyer buyer = buyerRepository.getById(user_id);//Se obtiene el usuario solicitado
-        if (buyer!=null){//Valida que sea un usario registrado
-            if (order!=null){//revisa si se solicito un ordenamiento desde el controlador
-                if (order.equals("name_asc")){//Ordenamiento ascendente mediante expresiones lambda
+        //Se obtiene el usuario solicitado
+        Buyer buyer = buyerRepository.getById(user_id);
+        //Valida que sea un usario registrado
+        if (buyer!=null){
+            //revisa si se solicito un ordenamiento desde el controlador
+            if (order!=null){
+                //Ordenamiento ascendente mediante expresiones lambda
+                if (order.equals("name_asc")){
                     buyer.setFollowed((buyer.getFollowed().stream()
                             .sorted(Comparator.comparing(Seller::getUser_name)).toList()));
                 }else {
-                    if (order.equals("name_desc")){//Ordenamiento descendente mediante expresiones lambda
+                    //Ordenamiento descendente mediante expresiones lambda
+                    if (order.equals("name_desc")){
                         buyer.setFollowed((buyer.getFollowed().stream()
                                 .sorted(Comparator.comparing(Seller::getUser_name).reversed()).toList()));
                     }else {

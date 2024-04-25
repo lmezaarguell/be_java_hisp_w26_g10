@@ -11,5 +11,5 @@ public interface IBuyerRepository {
     List<Buyer> getAll();
     Buyer update(Buyer buyer);
     void delete(Integer id);
-    Buyer followUser(Integer userId, Seller userFollowed);
+    Buyer followUser(Buyer userFollowing, Seller userFollowed);
 }

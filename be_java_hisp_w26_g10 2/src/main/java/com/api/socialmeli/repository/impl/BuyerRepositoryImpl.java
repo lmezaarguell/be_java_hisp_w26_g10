@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class BuyerRepositoryImpl implements IBuyerRepository {
@@ -48,8 +47,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public Buyer followUser(Integer userId, Seller userFollowed) {
-        Buyer userFollowing = getById(userId);
+    public Buyer followUser(Buyer userFollowing, Seller userFollowed) {
         userFollowing.getFollowed().add(userFollowed);
         return userFollowing;
     }
@@ -67,7 +65,6 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
             for (Buyer b : buyersArray) {
                 buyers.add(b);
             }
-            System.out.println(buyers);
 
         } catch (IOException e) {
             e.printStackTrace();
