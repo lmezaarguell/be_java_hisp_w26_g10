@@ -1,71 +1,47 @@
 package com.api.socialmeli.repository.impl;
 
 import com.api.socialmeli.entity.Post;
-import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.repository.IPostRepository;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class PostRepositoryImpl implements IPostRepository {
-    private List<Post> post = new ArrayList<>();
+    private List<Post> listPosts = new ArrayList<>();
 
-    public PostRepositoryImpl(){
-        this.post = this.loadData();
+    public PostRepositoryImpl() throws IOException {
+        this.loadPosts();
     }
 
     @Override
-    public Post save() {
-        return null;
+    public List<Post> loadAllPosts() {
+        return listPosts;
     }
 
-    @Override
-    public Post getById(int id) {
-        return null;
-    }
-
-    @Override
-    public List<Post> getAll() {
-        return post;
-    }
-
-    @Override
-    public Post update(Post post) {
-        return null;
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
-    public List<Post> loadData(){
-        List<Post> posts = new ArrayList<>();
-        String route = "classpath:post.json";
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+    public void loadPosts() throws IOException {
         File file;
-        try {
-            file = ResourceUtils.getFile(route);
-            Post[] data = objectMapper.readValue(file, Post[].class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Post> posts;
 
-            for (Post p : data) {
-                posts.add(p);
-            }
+        file = ResourceUtils.getFile("classpath:post.json");
+        posts = objectMapper.readValue(file, new TypeReference<List<Post>>() {
+        });
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return posts;
+        listPosts = posts;
+    }
+
+    @Override
+    public int searchPostId(){
+
+        int max = this.listPosts.stream().mapToInt(Post::getPost_id).max().orElse(0);
+        return max + 1;
     }
 }
