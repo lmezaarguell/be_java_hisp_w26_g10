@@ -41,7 +41,7 @@ public class BuyerServiceImpl implements IBuyerService {
                     }
                 }
             }
-            //Retorna la salida solicitada o en su caso las respectivas excepciones
+            //Retorna la salida solicitada o en su caso las respectivas excepciones.
             return mapper.convertValue(buyer,BuyerFollowedListDTO.class);
         }else {
             throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
