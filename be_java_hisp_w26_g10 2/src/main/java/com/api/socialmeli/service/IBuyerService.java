@@ -12,4 +12,5 @@ public interface IBuyerService {
     Buyer getBuyerById(Integer id);
     //Se define el método en la interface del servicio del cliente para su debida implementación
     public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order);
+    void unfollowUser(Integer userToFollow,Integer userToUnfollow);
 }

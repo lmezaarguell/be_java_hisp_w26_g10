@@ -31,7 +31,7 @@ public class SocialMeliController {
     public ResponseEntity<Buyer> followUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
-    
+
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable Integer userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
@@ -58,4 +58,13 @@ public class SocialMeliController {
     }
 
 
+    /*
+    US 0007: endpoint
+    */
+    @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<?> unfollowUser(@PathVariable Integer userId,
+                                          @PathVariable Integer userIdToUnfollow){
+        buyerService.unfollowUser(userId,userIdToUnfollow);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

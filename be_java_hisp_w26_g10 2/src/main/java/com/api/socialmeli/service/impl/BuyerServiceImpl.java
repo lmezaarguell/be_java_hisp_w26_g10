@@ -48,7 +48,26 @@ public class BuyerServiceImpl implements IBuyerService {
     public Buyer getBuyerById(Integer id) {
         return buyerRepository.getById(id);
     }
+    /*
+    US 0007: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor.
+     */
+    @Override
+    public void unfollowUser(Integer followerId, Integer toUnfollowId) {
+        Buyer buyer = buyerRepository.getById(followerId);
+        if(buyer == null){
+            throw new NotFoundException("El usuario no existe");
+        }
+        Seller sellerToUnfollow = buyer.getFollowed().
+                                             stream().
+                                             filter(e->e.getUser_id().equals(toUnfollowId)).
+                                             findFirst().
+                                             orElse(null);
+        if(sellerToUnfollow == null){
+            throw new NotFoundException("No sigues al vendedor ");
+        }
 
+        buyerRepository.getById(followerId).getFollowed().removeIf(e->e.getUser_id().equals(toUnfollowId));
+    }
     //Servicio que implementa la logica para obtener la lista de todos los vendedores que sigue
     //un determinado usuario con la opcion de poder ordenarlo por nombre ascendente o descentente
     @Override
