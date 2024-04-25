@@ -26,7 +26,7 @@ public class SocialMeliController {
 
     @GetMapping("/products/followed/{userId}/list")
     public ResponseEntity<?> getPostsByFollowed(@PathVariable Integer userId) {
-        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId));
+        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, true));
     }
 
 }
