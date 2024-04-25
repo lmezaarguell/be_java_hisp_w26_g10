@@ -20,18 +20,14 @@ public class SocialMeliController {
     private IPostService postService;
 
     @GetMapping("/users/{userId}/followers/count")
-    public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId){
+    public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId) {
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
     }
 
 
     @GetMapping("/products/followed/{userId}/list")
     public ResponseEntity<?> getPostsByFollowed(@PathVariable Integer userId, @RequestParam(required = false) String order) {
-        if (order != null && !order.trim().isEmpty()) {
-            return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, order));
-        }
-
-        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, "date_desc"));
+        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, order));
     }
 
 }
