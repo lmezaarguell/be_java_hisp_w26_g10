@@ -36,9 +36,6 @@ public class SocialMeliController {
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
 
-
-
-
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable Integer userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
@@ -49,5 +46,12 @@ public class SocialMeliController {
     public ResponseEntity<?> getPostsByFollowed(@PathVariable Integer userId, @RequestParam(required = false) String order) {
         return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, order));
     }
+
+    //Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
+    @GetMapping("/users/{userId}/followed/list")
+    public ResponseEntity<?> getFollowedListById(@PathVariable Integer userId,@RequestParam(required = false) String order){
+        return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFollowedListByUser(userId,order));
+    }
+
 
 }
