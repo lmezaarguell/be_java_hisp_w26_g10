@@ -1,8 +1,11 @@
 package com.api.socialmeli.service.impl;
 
+import com.api.socialmeli.dto.FollowedBySellerDto;
 import com.api.socialmeli.dto.SellersCountFollowersDto;
+import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
+import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.repository.ISellerRepository;
@@ -10,15 +13,15 @@ import com.api.socialmeli.service.ISellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SellerServiceImpl implements ISellerService {
-
-
     @Autowired
     ISellerRepository iSellerRepository;
-
     @Autowired
     IBuyerRepository iBuyerRepository;
 
@@ -70,5 +73,72 @@ public class SellerServiceImpl implements ISellerService {
         // Devolvemos nuestro objeto
         return sellersCountFollowersDto;
 
+    }
+
+    @Override
+    public FollowedBySellerDto getFollowersOfSeller(int seller_id, String order) {
+        /* se realiza validacion dentro del id del venedor enviado */
+        if(seller_id <= 0){
+            throw new BadRequestException("El id del vendedor no puede ser menor o igual a cero");
+        }
+
+        /* se realiza validacion dentro del order enviado */
+        if(!order.equals("name_desc") && !order.equals("name_asc") && !order.equals("")){
+            throw new BadRequestException("El tipo de ordenamiento no es el permitido");
+        }
+
+        /* se comprueba que el vendedor exista */
+        Seller seller = iSellerRepository.getById(seller_id);
+        if(seller == null){
+            throw new NotFoundException("No se encontro al vendedor con el id: " + Integer.toString(seller_id));
+        }
+
+        /* se optienen todos los compradores */
+        List<Buyer> buyers = iBuyerRepository.getAll();
+        if(buyers.isEmpty()){
+            throw new NotFoundException("No hay compradores registrados");
+        }
+
+        /* se busca si el comprador sigue al vendedor y se agrega el comprador a
+        * lista de seguidos */
+        List<Buyer> buyersFollowers = new ArrayList<>();
+        for(Buyer buyer: buyers){
+            for(Seller sellerFollowed: buyer.getFollowed()){
+                if(sellerFollowed.getUser_id().equals(seller_id)){
+                    buyersFollowers.add(buyer);
+                }
+            }
+        }
+
+        /* se comprueba que el vendedor tenga seguidores */
+        if(buyersFollowers.isEmpty()){
+            throw new NotFoundException("No se encontraron seguidores de este comprador: " + Integer.toString(seller_id));
+        }
+
+
+        /* se crea su dto de respuesta */
+        List<UserDto> followersDto = buyersFollowers.stream()
+                .map(buyer -> new UserDto(buyer.getUser_id(), buyer.getUser_name()))
+                .collect(Collectors.toList());
+        List<UserDto> sortedList = new ArrayList<>();
+
+        /* se comprueba forma de ordenamiento y se aplica el correspondiente*/
+        if(order.equals("name_asc")){
+            sortedList = followersDto.stream()
+                    .sorted(Comparator.comparing(UserDto::getUser_name))
+                    .collect(Collectors.toList());
+        }else if(order.equals("name_des")){
+            sortedList = followersDto.stream()
+                    .sorted(Comparator.comparing(UserDto::getUser_name).reversed())
+                    .collect(Collectors.toList());
+        }else{
+            sortedList = followersDto;
+        }
+
+        return new FollowedBySellerDto(
+                seller.getUser_id(),
+                seller.getUser_name(),
+                sortedList
+        );
     }
 }
