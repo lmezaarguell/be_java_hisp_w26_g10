@@ -31,7 +31,7 @@ public class FollowedByService implements IFollowedByService {
     public void addFollow(int seller_id, int buyer_id) {
         /* Se comprueba si el follow ya existe */
         Optional<FollowedBy> existsFollow = iFollowedByRepository.getFollowById(seller_id, buyer_id);
-        if(!existsFollow.isPresent()){
+        if(existsFollow.isPresent()){
             throw new BadRequestException("El follow ya existe");
         }
 
@@ -61,5 +61,13 @@ public class FollowedByService implements IFollowedByService {
 
     @Override
     public void deleteFollow(int seller_id, int buyer_id) {
+        /* Se comprueba si el follow ya existe */
+        Optional<FollowedBy> existsFollow = iFollowedByRepository.getFollowById(seller_id, buyer_id);
+        if(!existsFollow.isPresent()){
+            throw new BadRequestException("El follow no existe");
+        }
+
+        /* se elimina el follow */
+        iFollowedByRepository.delete(seller_id, buyer_id);
     }
 }
