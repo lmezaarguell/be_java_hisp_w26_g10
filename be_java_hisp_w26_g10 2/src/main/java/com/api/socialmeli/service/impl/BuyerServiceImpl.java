@@ -36,10 +36,10 @@ public class BuyerServiceImpl implements IBuyerService {
         Seller userFollowed = sellerRepository.getById(userIdToFollow);
         Buyer userFollowing = buyerRepository.getById(userId);
         if(userFollowed == null || userFollowing == null){
-            throw new BadRequestException("Seller or Customer not found");
+            throw new BadRequestException("Comprador o vendedor no encontrado por Id");
         }
         if(userFollowing.getFollowed().contains(userFollowed)){
-            throw new BadRequestException("User is already following seller");
+            throw new BadRequestException("Ya esta siguiendo al comprador");
         }
         return buyerRepository.followUser(userFollowing, userFollowed);
     }
