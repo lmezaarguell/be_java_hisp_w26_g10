@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.api.socialmeli.service.IPostService;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -25,8 +26,12 @@ public class SocialMeliController {
 
 
     @GetMapping("/products/followed/{userId}/list")
-    public ResponseEntity<?> getPostsByFollowed(@PathVariable Integer userId) {
-        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, true));
+    public ResponseEntity<?> getPostsByFollowed(@PathVariable Integer userId, @RequestParam(required = false) String order) {
+        if (order != null && !order.trim().isEmpty()) {
+            return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, order));
+        }
+
+        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, "date_desc"));
     }
 
 }
