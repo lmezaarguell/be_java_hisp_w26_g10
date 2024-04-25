@@ -75,7 +75,7 @@ public class SellerServiceImpl implements ISellerService {
         /* se crea su dto de respuesta */
         ObjectMapper objectMapper = new ObjectMapper();
         List<UserDto> followersDto = buyersFollowers.stream()
-                .map(followedBy -> objectMapper.convertValue(followedBy, UserDto.class))
+                .map(buyer -> new UserDto(buyer.getUser_id(), buyer.getUser_name()))
                 .collect(Collectors.toList());
 
         return new FollowedBySellerDto(
