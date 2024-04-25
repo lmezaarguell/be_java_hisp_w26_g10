@@ -1,6 +1,5 @@
 package com.api.socialmeli.repository.impl;
 
-import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.repository.IBuyerRepository;
@@ -48,6 +47,13 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
 
     }
 
+    @Override
+    public Buyer followUser(Integer userId, Seller userFollowed) {
+        Buyer userFollowing = getById(userId);
+        userFollowing.getFollowed().add(userFollowed);
+        return userFollowing;
+    }
+
     public List<Buyer> loadData(){
         List<Buyer> buyers = new ArrayList<>();
         String route = "classpath:buyer.json";
@@ -61,7 +67,6 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
             for (Buyer b : buyersArray) {
                 buyers.add(b);
             }
-            System.out.println(buyers);
 
         } catch (IOException e) {
             e.printStackTrace();

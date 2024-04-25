@@ -29,8 +29,9 @@ public class SellerRepositoryImpl implements ISellerRepository {
     }
 
     @Override
-    public Seller getById(int id) {
-        return null;
+    public Seller getById(Integer id) {
+        return sellers.stream().filter(
+                s -> s.getUser_id().equals(id)).findFirst().orElse(null);
     }
 
     @Override
@@ -61,7 +62,6 @@ public class SellerRepositoryImpl implements ISellerRepository {
             for (Seller s : sellers1) {
                 sellers.add(s);
             }
-            System.out.println(sellers);
         } catch (IOException e) {
             e.printStackTrace();
         }
