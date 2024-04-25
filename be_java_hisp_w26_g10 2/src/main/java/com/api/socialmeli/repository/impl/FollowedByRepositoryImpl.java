@@ -33,7 +33,10 @@ public class FollowedByRepositoryImpl implements IFollowedByRepository {
 
     @Override
     public List<FollowedBy> getFollowedByList(int seller_id) {
-        return null;
+        return followedList.stream()
+                .filter(follow
+                        -> follow.getSeller_id() == seller_id
+                ).toList();
     }
 
     @Override
