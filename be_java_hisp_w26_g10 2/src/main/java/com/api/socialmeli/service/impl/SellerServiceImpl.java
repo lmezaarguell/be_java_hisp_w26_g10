@@ -5,6 +5,7 @@ import com.api.socialmeli.dto.SellersCountFollowersDto;
 import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
+import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.repository.ISellerRepository;
@@ -37,6 +38,11 @@ public class SellerServiceImpl implements ISellerService {
 
     @Override
     public FollowedBySellerDto getFollowersOfSeller(int seller_id) {
+        /* se realiza validacion dentro del id del venedor enviado */
+        if(seller_id <= 0){
+            throw new BadRequestException("El id del venedor no puede ser menor o igual a cero");
+        }
+
         /* se comprueba que el vendedor exista */
         Seller seller = iSellerRepository.getById(seller_id);
         if(seller == null){

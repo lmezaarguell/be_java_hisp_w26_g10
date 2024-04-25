@@ -34,4 +34,9 @@ public class SocialMeliController {
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
     }
+
+    @GetMapping("/users/{userId}/followers/list")
+    public ResponseEntity<?> getFollowersOfSeller(@PathVariable("userId") int userId){
+        return new ResponseEntity<>(iSellerService.getFollowersOfSeller(userId), HttpStatus.OK);
+    }
 }
