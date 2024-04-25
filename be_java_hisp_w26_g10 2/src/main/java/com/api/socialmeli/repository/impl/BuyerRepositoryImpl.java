@@ -1,6 +1,5 @@
 package com.api.socialmeli.repository.impl;
 
-import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.repository.IBuyerRepository;
@@ -46,6 +45,13 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     @Override
     public void delete(int id) {
 
+    }
+
+    @Override
+    public Buyer followUser(Integer userId, Seller userFollowed) {
+        Buyer userFollowing = getById(userId);
+        userFollowing.getFollowed().add(userFollowed);
+        return userFollowing;
     }
 
     public List<Buyer> loadData(){
