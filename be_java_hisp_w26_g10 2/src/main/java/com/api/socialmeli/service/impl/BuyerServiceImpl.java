@@ -16,9 +16,10 @@ import org.springframework.stereotype.Service;
 public class BuyerServiceImpl implements IBuyerService {
 
     @Autowired
-    IBuyerRepository buyerRepository;
+    private IBuyerRepository buyerRepository;
+
     @Autowired
-    ISellerRepository sellerRepository;
+    private ISellerRepository sellerRepository;
 
     @Override
     public List<Buyer> getAll() {
@@ -37,5 +38,9 @@ public class BuyerServiceImpl implements IBuyerService {
         }
         return buyerRepository.followUser(userFollowing, userFollowed);
     }
-}
 
+    @Override
+    public Buyer getBuyerById(Integer id) {
+        return buyerRepository.getById(id);
+    }
+}

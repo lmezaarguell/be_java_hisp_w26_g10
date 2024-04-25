@@ -17,10 +17,10 @@ public class SellerServiceImpl implements ISellerService {
 
 
     @Autowired
-    ISellerRepository iSellerRepository;
+    private ISellerRepository iSellerRepository;
 
     @Autowired
-    IBuyerRepository iBuyerRepository;
+    private IBuyerRepository iBuyerRepository;
 
     /**
      * Obtenemos la cuenta de las personas que siguen a un determinado vendedor

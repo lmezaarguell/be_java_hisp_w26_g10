@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import com.api.socialmeli.service.IPostService;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.socialmeli.entity.Buyer;
@@ -16,9 +18,13 @@ import com.api.socialmeli.service.IBuyerService;
 public class SocialMeliController {
 
     @Autowired
-    IBuyerService buyerService;
+    private IBuyerService buyerService;
+
     @Autowired
-    ISellerService iSellerService;
+    private ISellerService iSellerService;
+
+    @Autowired
+    private IPostService postService;
 
     @GetMapping("/users")
     public ResponseEntity<List<Buyer>> getAll(){
@@ -29,10 +35,19 @@ public class SocialMeliController {
     public ResponseEntity<Buyer> followUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
-    
+
+
+
 
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable Integer userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
     }
+
+
+    @GetMapping("/products/followed/{userId}/list")
+    public ResponseEntity<?> getPostsByFollowed(@PathVariable Integer userId, @RequestParam(required = false) String order) {
+        return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, order));
+    }
+
 }

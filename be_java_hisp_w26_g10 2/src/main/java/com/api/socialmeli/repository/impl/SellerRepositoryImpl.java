@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Repository
 public class SellerRepositoryImpl implements ISellerRepository {
-    List<Seller> sellers = new ArrayList<>();
+    private List<Seller> sellers = new ArrayList<>();
 
     public SellerRepositoryImpl() {
         this.sellers = this.loadData();
