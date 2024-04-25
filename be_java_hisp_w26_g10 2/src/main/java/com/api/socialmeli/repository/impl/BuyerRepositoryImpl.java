@@ -1,6 +1,5 @@
 package com.api.socialmeli.repository.impl;
 
-import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.repository.IBuyerRepository;
@@ -16,7 +15,7 @@ import java.util.Map;
 
 @Repository
 public class BuyerRepositoryImpl implements IBuyerRepository {
-    List<Buyer> buyers = new ArrayList<>();
+    private List<Buyer> buyers = new ArrayList<>();
 
     public BuyerRepositoryImpl(){
         this.buyers = this.loadData();
@@ -28,7 +27,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public Buyer getById(int id) {
+    public Buyer getById(Integer id) {
         return buyers.stream().filter(
                 b -> b.getUser_id().equals(id)).findFirst().orElse(null);
     }
@@ -44,8 +43,15 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
 
+    }
+
+    @Override
+    public Buyer followUser(Integer userId, Seller userFollowed) {
+        Buyer userFollowing = getById(userId);
+        userFollowing.getFollowed().add(userFollowed);
+        return userFollowing;
     }
 
     public List<Buyer> loadData(){
