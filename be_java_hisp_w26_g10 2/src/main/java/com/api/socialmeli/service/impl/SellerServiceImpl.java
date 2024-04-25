@@ -40,13 +40,13 @@ public class SellerServiceImpl implements ISellerService {
     public FollowedBySellerDto getFollowersOfSeller(int seller_id) {
         /* se realiza validacion dentro del id del venedor enviado */
         if(seller_id <= 0){
-            throw new BadRequestException("El id del venedor no puede ser menor o igual a cero");
+            throw new BadRequestException("El id del vendedor no puede ser menor o igual a cero");
         }
 
         /* se comprueba que el vendedor exista */
         Seller seller = iSellerRepository.getById(seller_id);
         if(seller == null){
-            throw new NotFoundException("No se encontro al venedor con el id: " + Integer.toString(seller_id));
+            throw new NotFoundException("No se encontro al vendedor con el id: " + Integer.toString(seller_id));
         }
 
         /* se optienen todos los compradores */

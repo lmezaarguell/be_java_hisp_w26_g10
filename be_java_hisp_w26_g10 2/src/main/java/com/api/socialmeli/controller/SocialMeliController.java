@@ -17,6 +17,8 @@ public class SocialMeliController {
 
     @Autowired
     IBuyerService buyerService;
+
+    @Autowired
     ISellerService iSellerService;
 
     @GetMapping("/users")
@@ -29,7 +31,6 @@ public class SocialMeliController {
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
     
-
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
