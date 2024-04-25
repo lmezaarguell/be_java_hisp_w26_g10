@@ -28,8 +28,9 @@ public class SellerRepositoryImpl implements ISellerRepository {
     }
 
     @Override
-    public Seller getById(int id) {
-        return null;
+    public Seller getById(Integer id) {
+        return sellers.stream().filter(
+                s -> s.getUser_id().equals(id)).findFirst().orElse(null);
     }
 
     @Override
