@@ -1,8 +1,5 @@
 package com.api.socialmeli.repository.impl;
 
-import com.api.socialmeli.dto.UserDto;
-import com.api.socialmeli.entity.Buyer;
-import com.api.socialmeli.entity.Post;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.repository.ISellerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,11 +10,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class SellerRepositoryImpl implements ISellerRepository {
-    List<Seller> sellers = new ArrayList<>();
+    private List<Seller> sellers = new ArrayList<>();
 
     public SellerRepositoryImpl() {
         this.sellers = this.loadData();
@@ -62,7 +58,6 @@ public class SellerRepositoryImpl implements ISellerRepository {
             for (Seller s : sellers1) {
                 sellers.add(s);
             }
-            System.out.println(sellers);
         } catch (IOException e) {
             e.printStackTrace();
         }
