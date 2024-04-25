@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class FollowedBySellerDto {
     private int seller_id;
-    private int seller_name;
+    private String seller_name;
     private List<UserDto> followers;
 }
