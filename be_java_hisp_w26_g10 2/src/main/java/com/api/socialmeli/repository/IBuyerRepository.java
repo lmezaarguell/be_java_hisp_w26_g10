@@ -12,5 +12,5 @@ public interface IBuyerRepository {
     Buyer update(Buyer buyer);
     void delete(int id);
     
-    Buyer followUser(Integer userId, Seller userFollowed);
+    Buyer followUser(Buyer userFollowing, Seller userFollowed);
 }

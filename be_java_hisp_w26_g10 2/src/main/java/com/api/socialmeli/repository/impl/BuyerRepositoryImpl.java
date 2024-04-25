@@ -48,8 +48,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public Buyer followUser(Integer userId, Seller userFollowed) {
-        Buyer userFollowing = getById(userId);
+    public Buyer followUser(Buyer userFollowing, Seller userFollowed) {
         userFollowing.getFollowed().add(userFollowed);
         return userFollowing;
     }
