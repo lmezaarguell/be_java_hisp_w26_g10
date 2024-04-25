@@ -4,12 +4,8 @@ import com.api.socialmeli.service.ISellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import com.api.socialmeli.service.IPostService;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.service.IBuyerService;
@@ -18,7 +14,7 @@ import com.api.socialmeli.service.IBuyerService;
 public class SocialMeliController {
 
     @Autowired
-    private IBuyerService buyerService;
+    IBuyerService buyerService;
 
     @Autowired
     private ISellerService iSellerService;
@@ -35,10 +31,18 @@ public class SocialMeliController {
     public ResponseEntity<Buyer> followUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
-
+    
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable Integer userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{userId}/followers/list")
+    public ResponseEntity<?> getFollowersOfSeller(
+        @PathVariable("userId") int userId,
+        @RequestParam(name = "order", defaultValue = "", required = false) String order)
+    {
+        return new ResponseEntity<>(iSellerService.getFollowersOfSeller(userId, order), HttpStatus.OK);
     }
 
 
