@@ -12,20 +12,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements IPostService {
-
     @Autowired
     IPostRepository postRepository;
     private final List<Post> posts = new ArrayList<>();
-    int postCount;
+    int postId;
 
     @Override
     public PostDto publishPost(PostDto postDto) {
-
-        int postId = generatePostId();
+        postId = getPostId();
         postDto.setPost_id(postId);
         Post post = convertToPost(postDto);
         posts.add(post);
@@ -43,5 +40,14 @@ public class PostServiceImpl implements IPostService {
         } catch (Exception e) {
             throw new BadRequestException(e + "Reviewed data");
         }
+    }
+
+    private int getPostId() {
+        if (posts.isEmpty()){
+            postId = generatePostId();
+        }else {
+            postId = (posts.stream().mapToInt(Post::getPost_id).max().orElse(0) +1);
+        }
+        return postId;
     }
 }

@@ -1,23 +1,27 @@
 package com.api.socialmeli.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.swing.*;
 import java.time.LocalDate;
-import java.util.Date;
-
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
-    private int post_id;
-    private int user_id;
-    private Date date;
+    private Integer post_id;
+    private LocalDate date;
+    private Integer category;
+    private Double price;
+    private Integer user_id;
     private Product product;
-    private int category;
-    private double price;
+
+    @JsonIgnore
+    private boolean has_promo;
+    @JsonIgnore
+    private double discount;
 
 }

@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductController {
-
+    // MCaldera - The post service is initialized
     @Autowired
     IPostService postService;
 
+    // MCaldera - Enpoint corresponding to post creation
     @PostMapping("/products/post")
     public ResponseEntity<?> NewPost(@RequestBody PostDto postDto){
         return new ResponseEntity(this.postService.publishPost(postDto), HttpStatus.OK);
     }
-
 }
