@@ -67,7 +67,6 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
             for (Buyer b : buyersArray) {
                 buyers.add(b);
             }
-            System.out.println(buyers);
 
         } catch (IOException e) {
             e.printStackTrace();

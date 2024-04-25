@@ -62,7 +62,6 @@ public class SellerRepositoryImpl implements ISellerRepository {
             for (Seller s : sellers1) {
                 sellers.add(s);
             }
-            System.out.println(sellers);
         } catch (IOException e) {
             e.printStackTrace();
         }
