@@ -15,11 +15,10 @@ public class SocialMeliController {
     @Autowired
     IBuyerService buyerService;
 
+    //Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
     @GetMapping("/users/{userId}/followed/list")
     public ResponseEntity<?> getFollowedListById(@PathVariable Integer userId,@RequestParam(required = false) String order){
-        if (order==null)
-            return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFollowedListByUser(userId));
-        return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFollowedListByUserOrderByName(userId,order));
+        return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFollowedListByUser(userId,order));
     }
 
 

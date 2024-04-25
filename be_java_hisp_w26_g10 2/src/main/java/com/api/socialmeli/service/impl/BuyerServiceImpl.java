@@ -21,34 +21,30 @@ public class BuyerServiceImpl implements IBuyerService {
     @Autowired
     IBuyerRepository buyerRepository;
 
+    //Servicio que implementa la logica para obtener la lista de todos los vendedores que sigue
+    //un determinado usuario con la opcion de poder ordenarlo por nombre ascendente o descentente
     @Override
-    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id) {
+    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
         ObjectMapper mapper = new ObjectMapper();
-        Buyer buyer = buyerRepository.getById(user_id);
-        if (buyer!=null){
+        Buyer buyer = buyerRepository.getById(user_id);//Se obtiene el usuario solicitado
+        if (buyer!=null){//Valida que sea un usario registrado
+            if (order!=null){//revisa si se solicito un ordenamiento desde el controlador
+                if (order.equals("name_asc")){//Ordenamiento ascendente mediante expresiones lambda
+                    buyer.setFollowed((buyer.getFollowed().stream()
+                            .sorted(Comparator.comparing(Seller::getUser_name)).toList()));
+                }else {
+                    if (order.equals("name_desc")){//Ordenamiento descendente mediante expresiones lambda
+                        buyer.setFollowed((buyer.getFollowed().stream()
+                                .sorted(Comparator.comparing(Seller::getUser_name).reversed()).toList()));
+                    }else {
+                        throw new BadRequestException("Parametros incorrectos para el ordenamiento");
+                    }
+                }
+            }
+            //Retorna la salida solicitada o en su caso las respectivas excepciones
             return mapper.convertValue(buyer,BuyerFollowedListDTO.class);
         }else {
             throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
         }
-    }
-
-    @Override
-    public BuyerFollowedListDTO getFollowedListByUserOrderByName(Integer user_id, String order) {
-        BuyerFollowedListDTO buyer = getFollowedListByUser(user_id);
-        if (buyer.equals(null)){
-            throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
-        }
-        if (order.equals("name_asc")){
-            buyer.setFollowed((buyer.getFollowed().stream()
-                    .sorted(Comparator.comparing(Seller::getUser_name)).collect(Collectors.toList())));
-        }else {
-            if (order.equals("name_desc")){
-                buyer.setFollowed((buyer.getFollowed().stream()
-                        .sorted(Comparator.comparing(Seller::getUser_name).reversed()).collect(Collectors.toList())));
-            }else {
-                throw new BadRequestException("Parametros incorrectos para el ordenamiento");
-            }
-        }
-        return buyer;
     }
 }

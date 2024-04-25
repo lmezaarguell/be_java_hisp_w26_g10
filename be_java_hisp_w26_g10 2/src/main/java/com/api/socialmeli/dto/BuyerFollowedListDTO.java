@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+//Clase Dto que personaliza la salida para el endpoint 6 y 8
+//Solicita la lista de los vendedores que sigue un cliente
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
