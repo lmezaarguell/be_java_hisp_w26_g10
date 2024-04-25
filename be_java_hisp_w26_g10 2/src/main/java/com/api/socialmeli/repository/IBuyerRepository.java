@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IBuyerRepository {
     Buyer save();
-    Buyer getById(int id);
+    Buyer getById(Integer id);
 
     List<Buyer> getAll();
     Buyer update(Buyer buyer);

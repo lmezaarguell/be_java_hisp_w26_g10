@@ -28,7 +28,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public Buyer getById(int id) {
+    public Buyer getById(Integer id) {
         return buyers.stream().filter(
                 b -> b.getUser_id().equals(id)).findFirst().orElse(null);
     }
