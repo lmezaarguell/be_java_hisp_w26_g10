@@ -1,6 +1,9 @@
 package com.api.socialmeli.service;
 
 import com.api.socialmeli.dto.BuyerFollowedListDTO;
+import com.api.socialmeli.entity.Buyer;
+
+import java.util.List;
 
 public interface IBuyerService {
     public List<Buyer> getAll();
