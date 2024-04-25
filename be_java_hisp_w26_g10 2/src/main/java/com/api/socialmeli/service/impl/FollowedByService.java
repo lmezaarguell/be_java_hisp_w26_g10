@@ -41,9 +41,9 @@ public class FollowedByService implements IFollowedByService {
     }
 
     @Override
-    public List<FollowedByDto> getFollowersOfSeller(Seller seller) {
+    public List<FollowedByDto> getFollowersOfSeller(int seller_id) {
         /* se extrae la lista de seguidores del vendedor */
-        List<FollowedBy> followers = iFollowedByRepository.getFollowedByList(seller.getUser_id());
+        List<FollowedBy> followers = iFollowedByRepository.getFollowedByList(seller_id);
 
         /* se comprueba si existen seguidores */
         if(followers.isEmpty()){
@@ -59,6 +59,25 @@ public class FollowedByService implements IFollowedByService {
         return followedByDtoList;
     }
 
+    @Override
+    public List<FollowedByDto> getFollowsOfBuyer(int buyer_id) {
+        /* se extrae la lista de verdedores seguidos */
+        List<FollowedBy> follows = iFollowedByRepository.getFollowsOfBuyer(buyer_id);
+
+        /* se comprueba si existen seguidores */
+        if(follows.isEmpty()){
+            throw new NotFoundException("El comprador no tiene seguidores");
+        }
+
+        // Mapear la lista de FollowedBy a FollowedByDto
+        List<FollowedByDto> followedByDtoList = follows.stream()
+                .map(followedBy -> objectMapper.convertValue(followedBy, FollowedByDto.class))
+                .collect(Collectors.toList());
+
+        /* se retorna la respuesta */
+        return followedByDtoList;
+    }
+    
     @Override
     public void deleteFollow(int seller_id, int buyer_id) {
         /* Se comprueba si el follow ya existe */

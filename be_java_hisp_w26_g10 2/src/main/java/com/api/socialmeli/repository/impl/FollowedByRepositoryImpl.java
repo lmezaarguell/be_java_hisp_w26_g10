@@ -18,7 +18,7 @@ public class FollowedByRepositoryImpl implements IFollowedByRepository {
 
     @Override
     public void save(FollowedBy followedBy) {
-
+        followedList.add(followedBy);
     }
 
     @Override
@@ -41,7 +41,10 @@ public class FollowedByRepositoryImpl implements IFollowedByRepository {
 
     @Override
     public List<FollowedBy> getFollowsOfBuyer(int buyer_id) {
-        return null;
+        return followedList.stream()
+                .filter(follow
+                        -> follow.getBuyer_id() == buyer_id
+                ).toList();
     }
 
     @Override
