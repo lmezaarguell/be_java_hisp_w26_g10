@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Repository
 public class BuyerRepositoryImpl implements IBuyerRepository {
-    List<Buyer> buyers = new ArrayList<>();
+    private List<Buyer> buyers = new ArrayList<>();
 
     public BuyerRepositoryImpl(){
         this.buyers = this.loadData();
@@ -27,7 +27,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public Buyer getById(int id) {
+    public Buyer getById(Integer id) {
         return buyers.stream().filter(
                 b -> b.getUser_id().equals(id)).findFirst().orElse(null);
     }
@@ -43,7 +43,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Integer id) {
 
     }
 
@@ -67,6 +67,7 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
             for (Buyer b : buyersArray) {
                 buyers.add(b);
             }
+            System.out.println(buyers);
 
         } catch (IOException e) {
             e.printStackTrace();

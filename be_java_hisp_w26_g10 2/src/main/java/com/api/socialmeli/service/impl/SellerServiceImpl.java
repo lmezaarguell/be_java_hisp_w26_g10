@@ -2,38 +2,26 @@ package com.api.socialmeli.service.impl;
 
 import com.api.socialmeli.dto.FollowedBySellerDto;
 import com.api.socialmeli.dto.SellersCountFollowersDto;
-<<<<<<< HEAD
 import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.exception.BadRequestException;
-=======
-import com.api.socialmeli.entity.Buyer;
-import com.api.socialmeli.entity.Seller;
->>>>>>> 1195fd2803bbddbbf461633d8cf7bb0402804a15
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.repository.ISellerRepository;
 import com.api.socialmeli.service.ISellerService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class SellerServiceImpl implements ISellerService {
-
-
     @Autowired
     ISellerRepository iSellerRepository;
-    @Autowired
-    IBuyerRepository iBuyerRepository;
-
     @Autowired
     IBuyerRepository iBuyerRepository;
 
