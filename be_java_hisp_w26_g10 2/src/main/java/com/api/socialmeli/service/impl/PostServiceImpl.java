@@ -90,11 +90,11 @@ public class PostServiceImpl implements IPostService {
 
     //Ordena la lista de post por fecha segun el orden enviado por parametro
     List<Post> orderPostByDate(List<Post> posts, String order) {
-        if(order == null || order.equalsIgnoreCase("date_asc")) {
-             return posts.stream().sorted(Comparator.comparing(Post::getDate)).toList();
-        }else if(order.equalsIgnoreCase("date_desc")) {
+        if (order == null || order.equalsIgnoreCase("date_desc")) {
             return posts.stream().sorted(Comparator.comparing(Post::getDate).reversed()).toList();
-        }else {
+        } else if (order.equalsIgnoreCase("date_asc")) {
+            return posts.stream().sorted(Comparator.comparing(Post::getDate)).toList();
+        } else {
             throw new BadRequestException("El orden pedido no es valido");
         }
     }

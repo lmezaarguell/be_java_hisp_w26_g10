@@ -1,6 +1,5 @@
 package com.api.socialmeli.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +14,5 @@ public class ProductDto {
     private String type;
     private String color;
     private String notes;
+
 }

@@ -1,6 +1,5 @@
 package com.api.socialmeli.dto;
 
-import com.api.socialmeli.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
