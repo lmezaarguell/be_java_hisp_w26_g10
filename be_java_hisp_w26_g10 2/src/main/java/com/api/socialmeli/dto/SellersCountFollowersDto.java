@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
-    private Integer user_id;
+public class SellersCountFollowersDto {
+    private int user_id;
     private String user_name;
-
+    private int followers_count;
 }

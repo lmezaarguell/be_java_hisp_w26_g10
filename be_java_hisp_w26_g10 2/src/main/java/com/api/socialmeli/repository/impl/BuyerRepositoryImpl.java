@@ -61,15 +61,13 @@ public class BuyerRepositoryImpl implements IBuyerRepository {
         File file;
         try {
             file = ResourceUtils.getFile(route);
-            List<Map<String, Object>> data = objectMapper.readValue(file, List.class);
 
-            for (Map<String, Object> register : data) {
-                Buyer buyer = new Buyer();
-                buyer.setUser_id((Integer) register.get("user_id"));
-                buyer.setUser_name((String) register.get("user_name").toString());
-                buyer.setFollowed((List<Seller>) register.get("followed"));
-                buyers.add(buyer);
+            Buyer[] buyersArray = objectMapper.readValue(file, Buyer[].class);
+
+            for (Buyer b : buyersArray) {
+                buyers.add(b);
             }
+            System.out.println(buyers);
 
         } catch (IOException e) {
             e.printStackTrace();

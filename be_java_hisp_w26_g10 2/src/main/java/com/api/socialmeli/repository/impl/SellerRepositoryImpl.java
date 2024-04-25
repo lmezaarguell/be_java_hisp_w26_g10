@@ -2,6 +2,7 @@ package com.api.socialmeli.repository.impl;
 
 import com.api.socialmeli.dto.UserDto;
 import com.api.socialmeli.entity.Buyer;
+import com.api.socialmeli.entity.Post;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.repository.ISellerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,15 +56,13 @@ public class SellerRepositoryImpl implements ISellerRepository {
         File file;
         try {
             file = ResourceUtils.getFile(route);
-            List<Map<String, Object>> data = objectMapper.readValue(file, List.class);
 
-            for (Map<String, Object> register : data) {
-                Seller seller = new Seller();
-                seller.setUser_id((Integer) register.get("user_id"));
-                seller.setUser_name((String) register.get("user_name").toString());
-                sellers.add(seller);
+            Seller[] sellers1 = objectMapper.readValue(file, Seller[].class);
+
+            for (Seller s : sellers1) {
+                sellers.add(s);
             }
-
+            System.out.println(sellers);
         } catch (IOException e) {
             e.printStackTrace();
         }

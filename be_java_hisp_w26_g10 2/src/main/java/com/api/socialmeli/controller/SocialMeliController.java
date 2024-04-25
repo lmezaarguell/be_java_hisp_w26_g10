@@ -1,7 +1,6 @@
 package com.api.socialmeli.controller;
-
 import java.util.List;
-
+import com.api.socialmeli.service.ISellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,7 @@ public class SocialMeliController {
 
     @Autowired
     IBuyerService buyerService;
+    ISellerService iSellerService;
 
     @GetMapping("/users")
     public ResponseEntity<List<Buyer>> getAll(){
@@ -27,5 +27,11 @@ public class SocialMeliController {
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<Buyer> followUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
+    }
+    
+
+    @GetMapping("/users/{userId}/followers/count")
+    public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId){
+        return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
     }
 }
