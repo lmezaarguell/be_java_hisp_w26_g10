@@ -2,8 +2,11 @@ package com.api.socialmeli.service.impl;
 
 import com.api.socialmeli.dto.BuyerFollowedListDTO;
 import com.api.socialmeli.entity.Buyer;
+import com.api.socialmeli.entity.Seller;
+import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IBuyerRepository;
+import com.api.socialmeli.repository.ISellerRepository;
 import com.api.socialmeli.service.IBuyerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
