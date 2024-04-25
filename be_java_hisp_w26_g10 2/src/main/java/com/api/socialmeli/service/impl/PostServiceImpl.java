@@ -5,6 +5,7 @@ import com.api.socialmeli.dto.PostsByFollowedDto;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Post;
 import com.api.socialmeli.entity.Seller;
+import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IPostRepository;
 import com.api.socialmeli.service.IBuyerService;
@@ -29,7 +30,7 @@ public class PostServiceImpl implements IPostService {
     private IPostRepository postRepository;
 
     @Override
-    public PostsByFollowedDto getPostsByFollowed(Integer userId, boolean orderDes) {
+    public PostsByFollowedDto getPostsByFollowed(Integer userId, String order) {
         Buyer buyer = buyerService.getBuyerById(userId);
 
         if (buyer == null) {
@@ -48,14 +49,16 @@ public class PostServiceImpl implements IPostService {
         LocalDate maxDate = LocalDate.now().plusDays(1);
 
         List<Post> postsFollowed;
-        if(orderDes) {
+        if(order.equalsIgnoreCase("date_desc")) {
             postsFollowed = postRepository.getAll().stream().
                     filter(post -> findIdInPost(post.getUser_id(), ids) && post.getDate().isAfter(minDate)
                             && post.getDate().isBefore(maxDate)).sorted(Comparator.comparing(Post::getDate).reversed()).toList();
-        }else{
+        }else if(order.equalsIgnoreCase("date_asc")) {
             postsFollowed = postRepository.getAll().stream().
                     filter(post -> findIdInPost(post.getUser_id(), ids) && post.getDate().isAfter(minDate)
                             && post.getDate().isBefore(maxDate)).sorted(Comparator.comparing(Post::getDate)).toList();
+        }else{
+           throw new BadRequestException("El orden pedido no es valido");
         }
 
         if (postsFollowed.isEmpty()) {
