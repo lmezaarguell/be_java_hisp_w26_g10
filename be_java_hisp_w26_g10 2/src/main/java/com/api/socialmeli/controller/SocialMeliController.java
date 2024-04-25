@@ -1,6 +1,5 @@
 package com.api.socialmeli.controller;
 
-import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.service.IBuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
