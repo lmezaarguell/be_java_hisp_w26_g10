@@ -1,5 +1,7 @@
 package com.api.socialmeli.controller;
 
+import com.api.socialmeli.repository.ISellerRepository;
+import com.api.socialmeli.service.IBuyerService;
 import com.api.socialmeli.service.ISellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,8 @@ public class SocialMeliController {
 
     @Autowired
     ISellerService iSellerService;
+    @Autowired
+    IBuyerService buyerService;
 
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable int userId){
