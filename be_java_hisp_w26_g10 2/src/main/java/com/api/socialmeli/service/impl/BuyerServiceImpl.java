@@ -3,27 +3,38 @@ package com.api.socialmeli.service.impl;
 import com.api.socialmeli.dto.BuyerFollowedListDTO;
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
+import com.api.socialmeli.repository.IBuyerRepository;
+import com.api.socialmeli.repository.ISellerRepository;
+import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.service.IBuyerService;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class BuyerServiceImpl implements IBuyerService {
 
     @Autowired
     IBuyerRepository buyerRepository;
+    @Autowired
+    ISellerRepository sellerRepository;
 
-    //Servicio que implementa la logica para obtener la lista de todos los vendedores que sigue
-    //un determinado usuario con la opcion de poder ordenarlo por nombre ascendente o descentente
     @Override
+    public List<Buyer> getAll() {
+        return buyerRepository.getAll();
+    }
+
+    @Override
+    public Buyer followUser(Integer userId, Integer userIdToFollow) {
+        Seller userFollowed = sellerRepository.getById(userIdToFollow);
+        return buyerRepository.followUser(userId, userFollowed);
     public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
         ObjectMapper mapper = new ObjectMapper();
         Buyer buyer = buyerRepository.getById(user_id);//Se obtiene el usuario solicitado
