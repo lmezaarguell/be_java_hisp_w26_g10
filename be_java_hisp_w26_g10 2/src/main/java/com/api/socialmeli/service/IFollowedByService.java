@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface IFollowedByService {
     void addFollow(int seller_id, int buyer_id);
-    List<FollowedByDto> getFollowersOfSeller(Seller seller);
+    List<FollowedByDto> getFollowersOfSeller(int seller_id);
+    List<FollowedByDto> getFollowsOfBuyer(int buyer_id);
     void deleteFollow(int seller_id, int buyer_id);
 }
