@@ -69,7 +69,7 @@ public class PostRepositoryImpl implements IPostRepository {
         return posts;
     }
 
-    // MCaldera -
+    // MCaldera - Funcion de busqueda de valor maximo ´post_id´en json, para generar consecutivo
     @Override
     public int searchPostId(){
         int max = this.post.stream().mapToInt(Post::getPost_id).max().orElse(0);
