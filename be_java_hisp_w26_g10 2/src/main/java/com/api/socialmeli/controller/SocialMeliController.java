@@ -37,6 +37,9 @@ public class SocialMeliController {
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
     }
 
+    /*
+    * US 00003 - Obtener un listado de todos los usuarios que siguen a un determinado vendedor (¿Quién me sigue?)
+    * */
     @GetMapping("/users/{userId}/followers/list")
     public ResponseEntity<?> getFollowersOfSeller(
         @PathVariable("userId") int userId,

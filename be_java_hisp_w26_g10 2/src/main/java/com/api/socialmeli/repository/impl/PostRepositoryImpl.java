@@ -72,3 +72,4 @@ public class PostRepositoryImpl implements IPostRepository {
         this.post.add(post);
     }
 }
+

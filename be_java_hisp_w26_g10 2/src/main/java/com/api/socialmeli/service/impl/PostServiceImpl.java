@@ -26,7 +26,6 @@ public class PostServiceImpl implements IPostService {
 
     @Autowired
     private IBuyerService buyerService;
-
     @Autowired
     private IPostRepository postRepository;
     @Autowired

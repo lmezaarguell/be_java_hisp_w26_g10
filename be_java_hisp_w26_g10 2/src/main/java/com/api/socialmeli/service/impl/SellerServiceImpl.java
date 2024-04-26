@@ -10,12 +10,14 @@ import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.repository.IBuyerRepository;
 import com.api.socialmeli.repository.ISellerRepository;
 import com.api.socialmeli.service.ISellerService;
+import com.api.socialmeli.utils.UserDtoShort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,6 +81,9 @@ public class SellerServiceImpl implements ISellerService {
 
     }
 
+    /*
+    * US 0003 - Obtener un listado de todos los usuarios que siguen a un determinado vendedor (¿Quién me sigue?)
+    * */
     @Override
     public FollowedBySellerDto getFollowersOfSeller(int seller_id, String order) {
         /* se realiza validacion dentro del id del venedor enviado */
@@ -107,10 +112,10 @@ public class SellerServiceImpl implements ISellerService {
         * lista de seguidos */
         List<Buyer> buyersFollowers = new ArrayList<>();
         for(Buyer buyer: buyers){
-            for(Seller sellerFollowed: buyer.getFollowed()){
-                if(sellerFollowed.getUser_id().equals(seller_id)){
-                    buyersFollowers.add(buyer);
-                }
+            Optional<Seller> sellerExist = buyer.getFollowed().stream()
+                    .filter(x -> x.getUser_id().equals(seller_id)).findFirst();
+            if(!sellerExist.isPresent()){
+                buyersFollowers.add(buyer);
             }
         }
 
@@ -119,25 +124,13 @@ public class SellerServiceImpl implements ISellerService {
             throw new NotFoundException("No se encontraron seguidores de este comprador: " + Integer.toString(seller_id));
         }
 
-
         /* se crea su dto de respuesta */
         List<UserDto> followersDto = buyersFollowers.stream()
                 .map(buyer -> new UserDto(buyer.getUser_id(), buyer.getUser_name()))
                 .collect(Collectors.toList());
-        List<UserDto> sortedList = new ArrayList<>();
 
         /* se comprueba forma de ordenamiento y se aplica el correspondiente*/
-        if(order.equals("name_asc")){
-            sortedList = followersDto.stream()
-                    .sorted(Comparator.comparing(UserDto::getUser_name))
-                    .collect(Collectors.toList());
-        }else if(order.equals("name_des")){
-            sortedList = followersDto.stream()
-                    .sorted(Comparator.comparing(UserDto::getUser_name).reversed())
-                    .collect(Collectors.toList());
-        }else{
-            sortedList = followersDto;
-        }
+        List<UserDto> sortedList = UserDtoShort.sortList(followersDto, order);
 
         return new FollowedBySellerDto(
                 seller.getUser_id(),
