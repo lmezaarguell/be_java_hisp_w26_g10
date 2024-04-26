@@ -61,7 +61,7 @@ public class SocialMeliController {
 
 
     /*
-    US 0007: Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
+    US 0007: Se realiza la función del controller para direccionar el punto 7, dejar de seguir a un vendedor.
     */
     @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowUser(@PathVariable Integer userId,
