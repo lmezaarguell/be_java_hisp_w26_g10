@@ -42,6 +42,7 @@ public class SellerServiceImpl implements ISellerService {
         List<Seller> sellerList = iSellerRepository.getAll();
         List<Buyer> buyerList = iBuyerRepository.getAll();
 
+        // Creamos la instancia del DTO de salida
         SellersCountFollowersDto sellersCountFollowersDto = new SellersCountFollowersDto();
         int count = 0;
         boolean found = false;
@@ -65,13 +66,11 @@ public class SellerServiceImpl implements ISellerService {
 
         // Por cada comprador en nuestra lista tenemos otra lista de vendedores que sigue, por lo que iteramos sobre ella
         // Y sumamos un 1 a la cuenta si es que el id coincide con el user_id de la lista de vendedores.
-        for (Buyer buyer : buyerList){
-            for (Seller seller : buyer.getFollowed()){
-                if (seller.getUser_id().equals(user_id)) {
-                    count ++;
-                }
-            }
-        }
+
+        count = (int) buyerList.stream()                       // Convertimos la lista de compradores a un stream
+                .flatMap(buyer -> buyer.getFollowed().stream()) // Convertimos la lista de vendedores seguidos por cada comprador a un stream plano
+                .filter(seller -> seller.getUser_id().equals(user_id)) // Filtrar los vendedores cuyo user_id coincide con el especificado
+                .count();                                       // Contar el número de elementos en el stream resultante
 
         // Seteamos la cuenta total a nuestra instancia
         sellersCountFollowersDto.setFollowers_count(count);

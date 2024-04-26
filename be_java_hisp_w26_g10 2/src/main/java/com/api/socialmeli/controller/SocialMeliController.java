@@ -33,6 +33,9 @@ public class SocialMeliController {
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
     }
 
+    /*
+    US 0002: Obtener el resultado de la cantidad de usuarios que siguen a un determinado vendedor
+     */
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<?> getCountOfSellerFollowers(@PathVariable Integer userId){
         return new ResponseEntity<>(iSellerService.getCountOfSellerFollowers(userId), HttpStatus.OK);
