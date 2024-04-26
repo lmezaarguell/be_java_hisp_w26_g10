@@ -4,10 +4,10 @@ import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.entity.Seller;
 import com.api.socialmeli.exception.BadRequestException;
 import com.api.socialmeli.repository.IBuyerRepository;
-import com.api.socialmeli.repository.ISellerRepository;
 import com.api.socialmeli.dto.BuyerFollowedListDTO;
 import com.api.socialmeli.exception.NotFoundException;
 import com.api.socialmeli.service.IBuyerService;
+import com.api.socialmeli.service.ISellerService;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class BuyerServiceImpl implements IBuyerService {
     private IBuyerRepository buyerRepository;
 
     @Autowired
-    private ISellerRepository sellerRepository;
+    private ISellerService sellerService;
 
     @Override
     public List<Buyer> getAll() {
@@ -34,13 +34,10 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     public Buyer followUser(Integer userId, Integer userIdToFollow) {
-        Seller userFollowed = sellerRepository.getById(userIdToFollow);
-        Buyer userFollowing = buyerRepository.getById(userId);
-        if(userFollowed == null || userFollowing == null){
-            throw new BadRequestException("Comprador o vendedor no encontrado por Id");
-        }
+        Seller userFollowed = sellerService.getSellerById(userIdToFollow);
+        Buyer userFollowing = getBuyerById(userId);
         if(userFollowing.getFollowed().contains(userFollowed)){
-            throw new BadRequestException("Ya esta siguiendo al comprador");
+            throw new BadRequestException("Ya esta siguiendo al vendedor");
         }
         return buyerRepository.followUser(userFollowing, userFollowed);
     }
@@ -49,8 +46,7 @@ public class BuyerServiceImpl implements IBuyerService {
     public Buyer getBuyerById(Integer id) {
         Buyer buyer = buyerRepository.getById(id);
         //Valida que sea un usario registrado y retorna el cliente
-        if (buyer.equals(null))
-            throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
+        if (buyer == null) throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
         return buyer;
     }
     /*

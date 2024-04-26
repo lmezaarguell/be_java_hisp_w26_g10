@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,8 +29,7 @@ public class SellerServiceImpl implements ISellerService {
     @Override
     public Seller getSellerById(Integer id) {
         Seller seller = iSellerRepository.getById(id);
-        if (seller.equals(null))
-            throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
+        if (seller == null) throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
         return seller;
     }
     
