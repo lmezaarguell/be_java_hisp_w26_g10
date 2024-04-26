@@ -37,6 +37,14 @@ public class PostServiceImpl implements IPostService {
     private int postId;
 
     @Override
+    public Post getPostById(Integer id) {
+        Post post = postRepository.getById(id);
+        if (post.equals(null))
+            throw new NotFoundException("El post no existe o no se encuentra registrado.");
+        return post;
+    }
+
+    @Override
     public PostDto publishPost(PostDto postDto) {
         Integer userId = postDto.getUser_id();
 
@@ -79,6 +87,8 @@ public class PostServiceImpl implements IPostService {
             throw new BadRequestException(e + "Reviewed data");
         }
     }
+
+
 
     @Override
     public PostsByFollowedDto getPostsByFollowed(Integer userId, String order) {

@@ -51,15 +51,17 @@ public class SocialMeliController {
         return ResponseEntity.ok().body(postService.getPostsByFollowed(userId, order));
     }
 
-    //Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
+    /*
+    US 0004 and US0008: Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
+    */
     @GetMapping("/users/{userId}/followed/list")
     public ResponseEntity<?> getFollowedListById(@PathVariable Integer userId,@RequestParam(required = false) String order){
-        return ResponseEntity.status(HttpStatus.OK).body(buyerService.getFollowedListByUser(userId,order));
+        return ResponseEntity.status(HttpStatus.OK).body(buyerService.GetFollowedListByUser(userId,order));
     }
 
 
     /*
-    US 0007: endpoint
+    US 0007: Se realiza la función del controller para direccionar el endpoint 4 y el respectivo 8 del API
     */
     @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowUser(@PathVariable Integer userId,

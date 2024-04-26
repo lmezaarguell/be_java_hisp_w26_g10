@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 @Service
 public class BuyerServiceImpl implements IBuyerService {
+    public static String orderAsc = "name_asc";
+    public static String orderDesc = "name_desc";
 
     @Autowired
     private IBuyerRepository buyerRepository;
@@ -45,7 +47,11 @@ public class BuyerServiceImpl implements IBuyerService {
 
     @Override
     public Buyer getBuyerById(Integer id) {
-        return buyerRepository.getById(id);
+        Buyer buyer = buyerRepository.getById(id);
+        //Valida que sea un usario registrado y retorna el cliente
+        if (buyer.equals(null))
+            throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
+        return buyer;
     }
     /*
     US 0007: Poder realizar la acción de “Unfollow” (dejar de seguir) a un determinado vendedor.
@@ -70,32 +76,30 @@ public class BuyerServiceImpl implements IBuyerService {
     //Servicio que implementa la logica para obtener la lista de todos los vendedores que sigue
     //un determinado usuario con la opcion de poder ordenarlo por nombre ascendente o descentente
     @Override
-    public BuyerFollowedListDTO getFollowedListByUser(Integer user_id, String order) {
+    public BuyerFollowedListDTO GetFollowedListByUser(Integer user_id, String order) {
         ObjectMapper mapper = new ObjectMapper();
         //Se obtiene el usuario solicitado
-        Buyer buyer = buyerRepository.getById(user_id);
-        //Valida que sea un usario registrado
-        if (buyer!=null){
-            //revisa si se solicito un ordenamiento desde el controlador
-            if (order!=null){
-                //Ordenamiento ascendente mediante expresiones lambda
-                if (order.equals("name_asc")){
-                    buyer.setFollowed((buyer.getFollowed().stream()
-                            .sorted(Comparator.comparing(Seller::getUser_name)).toList()));
-                }else {
-                    //Ordenamiento descendente mediante expresiones lambda
-                    if (order.equals("name_desc")){
-                        buyer.setFollowed((buyer.getFollowed().stream()
-                                .sorted(Comparator.comparing(Seller::getUser_name).reversed()).toList()));
-                    }else {
-                        throw new BadRequestException("Parametros incorrectos para el ordenamiento");
-                    }
-                }
-            }
-            //Retorna la salida solicitada o en su caso las respectivas excepciones
-            return mapper.convertValue(buyer,BuyerFollowedListDTO.class);
-        }else {
-            throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
+        Buyer buyer = getBuyerById(user_id);
+        //Determina si se recibio un ordenamiento y si es correcto realiza la llamada al metodo para ordenar por nombre
+        if (order != null)
+            buyer.setFollowed(OrderFollowedListByName(order,buyer.getFollowed()));
+        //Retorna la salida solicitada
+        return mapper.convertValue(buyer,BuyerFollowedListDTO.class);
+    }
+
+    //Metodo que ordena segun los lineamientos descritos en el US0008
+    public List<Seller> OrderFollowedListByName(String order, List<Seller> sellers){
+        //Ordenamiento ascendente mediante expresiones lambda
+        if (order.equals(orderAsc)){
+            return ((sellers.stream()
+                    .sorted(Comparator.comparing(Seller::getUser_name)).toList()));
         }
+        //Ordenamiento descendente mediante expresiones lambda
+        if (order.equals(orderDesc)){
+            return ((sellers.stream()
+                    .sorted(Comparator.comparing(Seller::getUser_name).reversed()).toList()));
+        }
+        //Si no se encuentra el ordenamiento solicitado en el US0008 entonces lanza la excepción BadRequest
+        throw new BadRequestException("Parametros incorrectos para el ordenamiento");
     }
 }

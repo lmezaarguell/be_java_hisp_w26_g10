@@ -25,9 +25,15 @@ public class SellerServiceImpl implements ISellerService {
     @Autowired
     IBuyerRepository iBuyerRepository;
 
+    @Override
+    public Seller getSellerById(Integer id) {
+        Seller seller = iSellerRepository.getById(id);
+        if (seller.equals(null))
+            throw new NotFoundException("El usuario no existe o no se encuentra registrado.");
+        return seller;
+    }
     
     // Obtenemos la cuenta de las personas que siguen a un determinado vendedor
-     
     @Override
     public SellersCountFollowersDto getCountOfSellerFollowers(Integer user_id) {
         //Obtenemos la lista de los vendedores y compradores
