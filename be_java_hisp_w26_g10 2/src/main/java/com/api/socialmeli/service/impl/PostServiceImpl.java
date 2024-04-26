@@ -38,8 +38,7 @@ public class PostServiceImpl implements IPostService {
     @Override
     public Post getPostById(Integer id) {
         Post post = postRepository.getById(id);
-        if (post.equals(null))
-            throw new NotFoundException("El post no existe o no se encuentra registrado.");
+        if (post == null) throw new NotFoundException("El post no existe o no se encuentra registrado.");
         return post;
     }
 

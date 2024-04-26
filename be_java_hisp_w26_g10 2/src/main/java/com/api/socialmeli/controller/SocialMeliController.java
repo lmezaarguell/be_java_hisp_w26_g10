@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.api.socialmeli.service.IPostService;
 
 import com.api.socialmeli.entity.Buyer;
 import com.api.socialmeli.service.IBuyerService;
@@ -20,14 +19,14 @@ public class SocialMeliController {
     @Autowired
     private ISellerService iSellerService;
 
-    @Autowired
-    private IPostService postService;
-
     @GetMapping()
     public ResponseEntity<List<Buyer>> getAll(){
         return new ResponseEntity<List<Buyer>>(buyerService.getAll(), HttpStatus.OK);
     }
 
+    /*
+    US 0001: Se realiza la función del controller para direccionar el punto 1, seguir a un vendedor.
+     */
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<Buyer> followUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<Buyer>(buyerService.followUser(userId, userIdToFollow), HttpStatus.OK);
